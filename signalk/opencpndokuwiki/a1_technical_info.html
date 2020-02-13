@@ -1,0 +1,120 @@
+<h2 class="page-header">Signal K technical information</h2>
+
+<div class="level2">&nbsp;</div>
+
+<h3>External references</h3>
+
+<div class="level3">
+<p>From <a class="urlextern" href="https://signalk.org/" rel="nofollow" title="https://signalk.org/">https://signalk.org/</a> :</p>
+
+<p>Signal K is a modern and open data format for marine use. Built on standard web technologies including JSON, WebSockets and HTTP, Signal K provides a method for sharing information in a way that is friendly to WiFi, cellphones, tablets and the Internet.</p>
+
+<p>Technical specification: <a class="urlextern" href="https://signalk.org/specification/1.3.0/doc/" rel="nofollow" title="https://signalk.org/specification/1.3.0/doc/">https://signalk.org/specification/1.3.0/doc/</a></p>
+</div>
+
+<h3>Additional information</h3>
+
+<div class="level3">
+<hr /></div>
+
+<h4>Signal K is a data model: a way to represent marine data</h4>
+
+<div class="level4">
+<p><em>Courtesy of teppokurki</em> ; cf. <a class="urlextern" href="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281" rel="nofollow" title="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281">http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281</a> :</p>
+
+<p>Signal K defines paths that are used to tell what a datum is: navigation.speedOverGround or environment/outside/temperature.<br />
+<br />
+So instead of encoding speedOverGround in a cryptic message like <code>$GNRMC,001031.00,A,4404.13993,N,12118.86023,W,0.14 6,,100117,,,A*7B</code> (NMEA0183) or <code>8,00,4e,01,ff,ff,00,ff,ff</code> (NMEA2000 pgn 128259 data as hex) we send a message like<br />
+<br />
+<code>{&quot;path&quot;:&quot;navigation.speedOverGround&quot;, &quot;value&quot;: 3.34}</code><br />
+<br />
+It also defines standard units for each path in a schema.</p>
+
+<hr /></div>
+
+<h4>Signal K defines some interfaces for accessing the data</h4>
+
+<div class="level4">
+<p><em>Courtesy of teppokurki</em> ; cf. <a class="urlextern" href="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281" rel="nofollow" title="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281">http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-38.html#post3011281</a> :</p>
+
+<p>Signal K specification defines how an application can</p>
+
+<ul class="fix-media-list-overlap">
+	<li class="level1">connect to a Signal K server</li>
+	<li class="level1">retrieve some or all of the latest values</li>
+	<li class="level1">subscribe to receive some or all of the updates that the server sees</li>
+	<li class="level1">send new sensor data to the server</li>
+</ul>
+
+<p>in a modern , internet, browser and smartphone friendly way.<br />
+<br />
+In OpenCPN each plugin must parse the NMEA0183 data separately - there is no central data model. Contrast that to a SK server, where all incoming data, be it NMEA2000 or NMEA0183 or some other non-NMEA sensor data, is converted first to Signal K and then made available to all the different parts of the system.<br />
+<br />
+In this thread there has been talk about different plugins doing calculations differently. In a SK system we can also derive data, for example calculate true wind, and this derived data will be available like the original sensor data for all applications. Another example would be applying calibration to incoming data: I have a piece of code that adjusts magnetic heading to parameters specific to my boat. This is also done once and the adjusted data is what is available for all displays/gauges.<br />
+<br />
+All data in a uniform data model makes dealing with it much easier. A few days ago somebody asked about sending Signal K data to a cloud IoT database. This is what the code to do that looks like</p>
+
+<pre class="code">
+const ws = new WebSocket(&#39;ws://localhost:3000/signalk/v1/stream&#39;)
+ws.on(&#39;message&#39;, function incoming(data) {
+  const msg = JSON.parse(data)
+  msg.updates &amp;&amp; msg.updates.forEach(update =&gt; {
+    update.values &amp;&amp; update.values.forEach(pathValue =&gt; {
+    const msgOut = {}
+    msgOut[pathValue.path] = pathValue.value
+    const theMsg = JSON.stringify(msgOut)
+    client.publish(&#39;v1/devices/me/telemetry&#39;, theMsg)
+    })
+  })
+})
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p>From an application developer&#39;s perspective this is a lot easier than dealing with NMEA data. The ability to store the data in a database easily and draw graphs based on it that conachair touts comes from the uniformness: you don&#39;t need to write separate logic for each and every datum, just a single mechanism for writing SK data to the db<em>.</em></p>
+
+<p>In fact one motivation for myself when starting out with Signal K was the need to have one way to deal with various data: I had written some code for myself based on NMEA0183. Next season I switched my wind gear to NMEA2000. Instead of rewriting the code in an NMEA2000 specific way I converted it to use a data format that does not really care where the data is coming from.</p>
+
+<p>At the same time you get the benefit of easily debugging stuff: it is way easier to figure out what&#39;s happening if you see a SK path compared to unparsed <a class="urlextern" href="http://www.cruisersforum.com/forums/tags/nmea.html" rel="nofollow" title="http://www.cruisersforum.com/forums/tags/nmea.html">NMEA</a> data.</p>
+
+<p>With Node Signal K Server you get some other niceties, like * appstore where you can install &amp; update extensions (for example derived data formulae or plugins for writing SK data into databases locally or in the cloud) and webapps (customizable dashboards and gauges that work in browser on computers and smartphones) * secure and authenticated access to your data * playback &amp; snapshot support: the ability to stream or retrieve historical data * logging: you can log all your data but these are not part of the Signal K specification, data model and protocol, merely features of this particular software.</p>
+
+<hr /></div>
+
+<h4>Accessing the reduced set of Signal K data, the delta</h4>
+
+<div class="level4">
+<p>Courtesy to rgleason,canne, cf: <a class="urlextern" href="http://www.cruisersforum.com/forums/f134/signal-k-155383-8.html#post3021434" rel="nofollow" title="http://www.cruisersforum.com/forums/f134/signal-k-155383-8.html#post3021434">http://www.cruisersforum.com/forums/f134/signal-k-155383-8.html#post3021434</a></p>
+
+<p>The SIgnal K data model <a class="urlextern" href="https://signalk.org/specification/1.3.0/doc/data_model.html" rel="nofollow" title="https://signalk.org/specification/1.3.0/doc/data_model.html">https://signalk.org/specification/1.3.0/doc/data_model.html</a> defines not only the full model but also the delta format: <a class="urlextern" href="https://signalk.org/specification/1.3.0/doc/data_model.html#delta-format" rel="nofollow" title="https://signalk.org/specification/1.3.0/doc/data_model.html#delta-format">https://signalk.org/specification/1.3.0/doc/data_model.html#delta-format</a> :</p>
+
+<ul class="fix-media-list-overlap">
+	<li class="level1">&quot;It is also entirely possible for a device to remain essentially stateless and treat Signal K deltas as independent packets of data, much the same way as it would handle NMEA sentences or PGNs.&quot;</li>
+</ul>
+
+<p>Moreover, in the documentation made for the plug-in authors, delta is described <a class="urlextern" href="https://github.com/SignalK/signalk-server-node/blob/master/SERVERPLUGINS.md#deltas" rel="nofollow" title="https://github.com/SignalK/signalk-server-node/blob/master/SERVERPLUGINS.md#deltas">https://github.com/SignalK/signalk-server-node/blob/master/SERVERPLUGINS.md#deltas</a></p>
+
+<ul class="fix-media-list-overlap">
+	<li class="level1">&quot;&hellip;most of the time a data consumer like a plugin is interested in updates to just a few particular data items. This is why the server&#39;s plugin API uses <em>denormalized deltas</em> to allow handling data items independently. When you handle the individual items separately you do not need to go through the delta&#39;s envelope format to find the item that you have interest in.&quot;</li>
+</ul>
+
+<p>This model, allows the programmers and developers of us to deal with the data arriving from a Signal K server&#39;s delta channel like if we would be directly connected to the source of the data, if its NMEA-0183 or NMEA-2000 or something else.</p>
+
+<p>The port providing delta channel is, on Signal node server for node.js is 8375, try <a class="urlextern" href="http://localhost:8375" rel="nofollow" title="http://localhost:8375">http://localhost:8375</a> with your browser (does not work with all browsers, try another one or use wget, nc or other command-line program) to study what you have from your system.</p>
+
+<p>Some existing code, the following is a permalink to an existing and well tested Signal K delta data streaming read project:</p>
+
+<p>- the Signal K Streamer delta channel socket listening + parser thread starts here:</p>
+
+<p><a class="urlextern" href="https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L231" rel="nofollow" title="https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L231">https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L231</a></p>
+
+<p>- the Signal K Streamer delta message parsing to internal format (of Dashboard in this case) is starting from this line in the thread:</p>
+
+<p><a class="urlextern" href="https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L396" rel="nofollow" title="https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L396">https://github.com/canne/dashboard_tactics_pi/blob/b0eaf632a1964c3274bbd3bf261ecef4e4473299/src/streamin-sk.cpp#L396</a></p>
+
+<hr />
+<hr /></div>

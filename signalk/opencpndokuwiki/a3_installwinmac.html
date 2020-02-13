@@ -1,0 +1,185 @@
+<h3>Installation Signal K node server for node.js on Windows</h3>
+
+<div class="level3">&nbsp;</div>
+
+<h4>Native node.js on Windows 10</h4>
+
+<div class="level4">
+<p><em><b>npm</b></em> is needed. You get easiest with <em><b>node.js</b></em> in which it is bundled and for which the Signal K node server is packaged for and made available in nmp-repositories, Get the software from <a class="urlextern" href="https://nodejs.org/en/download/" rel="nofollow" title="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a>.</p>
+
+<p>When the installation is finished, refer from the command prompt that you have, at minimum the following versions:</p>
+
+<pre class="code">
+node -v
+v12.13.0
+npm -v
+6.5.0
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p>We will use npm and its remote repository to install SK node server:</p>
+
+<pre class="code">
+npm install -g --unsafe-perm signalk-server
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p>To run it, type:</p>
+
+<pre class="code">
+signalk-server
+Settings file does not exist, using empty settings
+signalk-server running at 0.0.0.0:3000
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p>You would point your browser to <a class="urlextern" href="http://localhost:3000" rel="nofollow" title="http://localhost:3000">http://localhost:3000</a> to get connected to the Signal K node server&#39;s user interface. Having this pages indicates that this installation phase ha been successfully completed. You fill find from the main page of this wiki section for Signal K a page which gives you information how to configure the server for the usage with OpenCPN.</p>
+</div>
+
+<h5>Caveat #1</h5>
+
+<div class="level5">
+<p>You probably notice errors, for canboat and socketcan during the installation, so some CAN-bus connected dongles or such will not work in this architecture if you have errors like this:</p>
+
+<pre class="code">
+wanted {&quot;os&quot;:&quot;linux&quot;,&quot;arch&quot;:&quot;any&quot;} (current: {&quot;os&quot;:&quot;win32&quot;,&quot;arch&quot;:&quot;x64&quot;}
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+</div>
+
+<h5>Caveat #2</h5>
+
+<div class="level5">
+<p><code>.signalk</code> directory in your home directory:</p>
+
+<ul class="fix-media-list-overlap">
+	<li class="level1">If you upgrade or reinstall, the post-install script (upgrade from <em>v1.1.17</em> to <em>v1.1.18</em>) fails if <code>.signalk</code> directory in your home directory exists (<code>.signalk</code>-directory in your home directory is where your settings are store and you would store your test NMEA-files for play-back - keep it safe). Rename it to something else before installing, to have a copy for the new installation</li>
+	<li class="level1">If you make a fresh install and get some issues and cannot find the <code>.signalk</code> directory in your home directory, please remember that it is created at the first launch of the server only. Just attempt to start the server as explained above for now.</li>
+</ul>
+</div>
+
+<h5>Caveat #3</h5>
+
+<div class="level5">
+<p>Restart of the server from the admin GUI interface of the browser does not work, of course, since you have launched the server manually. If you click that button on the browser user interface, the signalk-server process will sto - you need to start the server again from the command line. Use the up-arrow key and press enter.</p>
+
+<hr /></div>
+
+<h4>Signal K node server for node.js as Docker-image</h4>
+
+<div class="level4">
+<p>Install <a class="urlextern" href="https://www.docker.com/products/docker-desktop" rel="nofollow" title="https://www.docker.com/products/docker-desktop">https://www.docker.com/products/docker-desktop</a> the runtime environment for so called application containers, containing everything the application needs for running, but nothing more in encapsulated format. To fetch and run Signal K server for the first time type the following from the command line:</p>
+
+<pre class="code">
+docker run --name signalk-server --restart=unless-stopped -p  3000:3000 signalk/signalk-server
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+
+<p>&#39;3000&#39; is the port number which you will use again to connect with the administration interface to set it up. You would point your browser to <a class="urlextern" href="http://localhost:3000" rel="nofollow" title="http://localhost:3000">http://localhost:3000</a> to get connected to the Signal K node server&#39;s user interface. Having this pages indicates that this installation phase ha been successfully completed. You fill find from the main page of this wiki section for Signal K a page which gives you information how to configure the server for the usage with OpenCPN.</p>
+
+<p>If you allow the Docker to start automatically with your system, this service will start automatically as well.</p>
+
+<p>Alternatively, you may want to mount the node&#39;s home directory on you local disk: In Docker world, containers do come and go, for example upgrade is best done by deleting a container and then reinstalling it. But you would lose your settings. The solution is to provide a volume from the local disk to the Node&#39;s home directory:</p>
+
+<ol class="fix-media-list-overlap">
+	<li class="level1">In Docker Desktop, Settings, Shared Drives, allow your disk drive to be seen by the containers</li>
+	<li class="level1">Delete the container created above (you may want to use a graphical tool for that if you do hesitate with the docker command line, see below, <em>Caveat #6</em> for a suitable tool suggestion. We are going to refer to that later on.</li>
+	<li class="level1">Start a new container, this time with the following command lines</li>
+	<li class="level1">
+	<pre class="code">
+docker volume create signalk-storage
+docker run --name signalk-server --restart=unless-stopped -p 3000:3000 -v signalk-storage:/home/pi/.signalk signalk/signalk-server
+
+
+
+
+</pre>
+
+	<p>&nbsp;</p>
+	</li>
+</ol>
+
+<ol class="fix-media-list-overlap">
+	<li class="level1">Create an appropriate folder, such as <code>signalkdocer </code>in your home directory</li>
+	<li class="level1">The following can be done with docker command line commands, but since we have a graphical user interface to help us, let&#39;s use that to mount that folder as a placeholder for the Docker image&#39;s Signal K node server&#39;s home directory, on the exported, virtual Docket-volume we created on you local disk for it:<br />
+	<img alt="live.staticflickr.com_65535_49129840771_450c25ee23_z.jpg" class="media img-responsive" height="188" src="/wiki/dokuwiki/lib/exe/fetch.php?w=640&amp;h=188&amp;tok=998054&amp;media=https%3A%2F%2Flive.staticflickr.com%2F65535%2F49129840771_450c25ee23_z.jpg" title="live.staticflickr.com_65535_49129840771_450c25ee23_z.jpg" width="640" /></li>
+	<li class="level1">Almost immediately, the new home folder in your local disk start to be filling with the Signal K node server&#39;s settings and other files you want to keep from one container to another:<br />
+	<img alt="live.staticflickr.com_65535_49130024682_756df60499_m.jpg" class="media img-responsive" height="198" src="/wiki/dokuwiki/lib/exe/fetch.php?w=240&amp;h=198&amp;tok=8d2c7b&amp;media=https%3A%2F%2Flive.staticflickr.com%2F65535%2F49130024682_756df60499_m.jpg" title="live.staticflickr.com_65535_49130024682_756df60499_m.jpg" width="240" /></li>
+</ol>
+
+<p>With this configuration you can exploit and test all the functionalites of a Signal K node server with a simple and fast container installation/reinstallation.</p>
+
+<p>When it comes to get data in and data out, you need more network ports, some perhaps with UDP-protocl. Please consult <a class="urlextern" href="https://github.com/tkurki/marinepi-provisioning/blob/master/roles/signalk-docker/templates/docker-compose.j2#L1-L24" rel="nofollow" title="https://github.com/tkurki/marinepi-provisioning/blob/master/roles/signalk-docker/templates/docker-compose.j2#L1-L24">this Marine PI provisioning template</a> to get an idea of all ports which can be concerned. If we take the usual, OpenCPN port number 10110, you would need to start the Signal K container with the following command, instead of just the port 3000:3000 mapping, you would give the extra ports (please remember that the usual practice is to remove the old container before, then map the home directory from your local disk where it is safe to this new instance, using the graphical user interface tool):</p>
+
+<pre class="code">
+docker run --name signalk-server --restart=unless-stopped -p 3000:3000 -p 10110:10110 -v signalk-storage:/home/pi/.signalk signalk/signalk-server
+
+
+
+
+</pre>
+
+<p>&nbsp;</p>
+</div>
+
+<h5>Caveat #4:</h5>
+
+<div class="level5">
+<p>This is, for the time being only to try things out - if all communication is TCP or UDP, you would not notice any difference to a native operation other than it would be more difficult to set up the connection between different elemens due to large number of network ports Signal K node server is using.</p>
+</div>
+
+<h5>Caveat #5:</h5>
+
+<div class="level5">
+<p>It is not always easy to understand how to get files in and out in a specific Docker application. In the above how-to we give one example for Signal K node server on Docker so that its home directory can be exported. But there are other items you might be interested to see&nbsp;and keep for one installation to another, like&nbsp;log files, etc. You may want to repeat the above steps&nbsp;for the home directory with an other folder you are interested in.</p>
+</div>
+
+<h5>Caveat #6:</h5>
+
+<div class="level5">
+<p>Docker service management from the command line can be challenging. For your convenience, you can install <a class="urlextern" href="https://kitematic.com" rel="nofollow" title="https://kitematic.com">https://kitematic.com</a> which has a very simple GUI to manage your Docker images. It also proposes you a catalog of other application images which you can browse and install for your convenience.</p>
+
+<hr /></div>
+
+<h4>Ubuntu node.js on Windows Subsystem for Linux</h4>
+
+<div class="level4">
+<p>courtesy of <em>conachair</em><br />
+cf. <a class="urlextern" href="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-37.html#post3010973" rel="nofollow" title="http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-37.html#post3010973">http://www.cruisersforum.com/forums/f134/plugin-dashboard-44087-37.html#post301097</a></p>
+
+<p>On my system I have WSL2 running, windows system for linux.<br />
+Quite a lot of info here &gt; <a class="urlextern" href="https://docs.microsoft.com/en-us/windows/wsl/wsl2-install" rel="nofollow" title="https://docs.microsoft.com/en-us/windows/wsl/wsl2-install">https://docs.microsoft.com/en-us/win...l/wsl2-install</a> (left colon, install on windows10)<br />
+Then installed Ubuntu from the windows app store.<br />
+<br />
+Then in the ubuntu terminal followed to install instructions for signalk raspberry Pi from here - <a class="urlextern" href="https://github.com/SignalK/signalk-server-node/blob/master/raspberry_pi_installation.md" rel="nofollow" title="https://github.com/SignalK/signalk-server-node/blob/master/raspberry_pi_installation.md">https://github.com/SignalK/signalk-s...nstallation.md</a><br />
+and running &#39;signalk-server &ndash;sample-nmea0183-data&#39; got it up and running, available back in w<em>indows chrome with the address Quote: |<a class="urlextern" href="http://localhost:3000/" rel="nofollow" title="http://localhost:3000/">http://localhost:3000/</a>| </em></p>
+
+<p><em><img alt="" class="mediacenter img-responsive" height="562" src="/wiki/dokuwiki/lib/exe/fetch.php?w=903&amp;h=562&amp;tok=787e1e&amp;media=https%3A%2F%2Fi.imgur.com%2FIWYNsKp.png" width="903" /></em></p>
+
+<hr />
+<hr /></div>
