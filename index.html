@@ -155,6 +155,8 @@ Error message and password prompt
 
 <li>$:/config/TextEditor/EnableToolbar</li>
 
+<li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/clone</li>
+
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/close</li>
 
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit</li>
@@ -183,6 +185,8 @@ Error message and password prompt
 
 <li>$:/state/tab--2112689675</li>
 
+<li>$:/state/tab-1163638994</li>
+
 <li>$:/state/tab-1749438307</li>
 
 <li>$:/state/tab/moresidebar-1850697562</li>
@@ -208,6 +212,10 @@ Error message and password prompt
 <li>dashboard_tactics_pi</li>
 
 <li>Dashboard/Tactics Plugin for OpenCPN</li>
+
+<li>DashT</li>
+
+<li>DashT - plug-in for OpenCPN</li>
 
 </ul>
 </p>
@@ -240,10 +248,13 @@ Error message and password prompt
 <div created="20191019115317507" modified="20191019121618721" title="$:/config/TextEditor/EnableToolbar">
 <pre>yes</pre>
 </div>
-<div created="20191019113449381" modified="20200215222029948" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/close">
+<div created="20200216154927917" modified="20200216155247308" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/clone">
 <pre>hide</pre>
 </div>
-<div created="20191019113446560" modified="20200215222028315" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
+<div created="20191019113449381" modified="20200216155249950" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/close">
+<pre>hide</pre>
+</div>
+<div created="20191019113446560" modified="20200216155248306" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit">
 <pre>hide</pre>
 </div>
 <div created="20191019113506174" modified="20191019121641769" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/more-tiddler-actions">
@@ -9472,19 +9483,22 @@ Error message and password prompt
 <div created="20191019120403877" modified="20191019120406559" title="$:/state/tab--2112689675">
 <pre>$:/core/ui/ControlPanel/Basics</pre>
 </div>
+<div created="20200216155112610" modified="20200216155113609" title="$:/state/tab-1163638994">
+<pre>$:/core/ui/MoreSideBar/Plugins/Plugins</pre>
+</div>
 <div created="20191019105151928" modified="20191019121637722" title="$:/state/tab-1749438307">
 <pre>$:/core/ui/ControlPanel/Appearance</pre>
 </div>
-<div created="20191019113544168" modified="20191019115724799" title="$:/state/tab/moresidebar-1850697562">
-<pre>$:/core/ui/MoreSideBar/Plugins</pre>
+<div created="20191019113544168" modified="20200216155118075" title="$:/state/tab/moresidebar-1850697562">
+<pre>$:/core/ui/MoreSideBar/Tags</pre>
 </div>
-<div created="20191019105331166" modified="20200215222022442" title="$:/state/tab/sidebar--595412856">
+<div created="20191019105331166" modified="20200216155310158" title="$:/state/tab/sidebar--595412856">
 <pre>$:/core/ui/SideBar/Open</pre>
 </div>
 <div created="20191019113331379" modified="20191019121434074" title="$:/state/tabs/controlpanel/toolbars-1345989671">
 <pre>$:/core/ui/ControlPanel/Toolbars/ViewToolbar</pre>
 </div>
-<div created="20200215220901773" list="[[Dashboard/Tactics Plugin for OpenCPN]]" modified="20200215222020416" title="$:/StoryList">
+<div created="20200216154923960" list="[[DashT - plug-in for OpenCPN]]" modified="20200216155244544" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -9667,6 +9681,39 @@ Error message and password prompt
 <pre></pre>
 </div>
 <div created="20191019105240790" modified="20200215221947838" tags="dashboard_tactics_pi" title="Dashboard/Tactics Plugin for OpenCPN">
+<pre>Enhanced replacement of Dashboard plug-in of [ext[OpenCPN|https://opencpn.org/]] v5 or greater. Brings in Tactics plug-in with its regatta computer-type active functions.
+
+An optional by-passing Signal K data format flow feeding instruments directly, including an integrated JavaScript instruments for engine and energy  data.
+
+InfluxDB v2.0 time series database connectivity.
+
+[ext[https://github.com/canne/dashboard_tactics_pi]]
+
+!! Documentation
+
+[ext[Releases and latest features|https://github.com/canne/dashboard_tactics_pi/releases]]
+
+!!! Tactics performance instruments and functions
+* [ext[Introduction|https://github.com/canne/dashboard_tactics_pi/blob/master/docs/Tactics.md#dashboardtactics-plugin-for-opencpn]]
+* [ext[Tactics User's Guide|dashboard_tactics_pi/docs/tactics_pi.pdf]]
+
+!!! Signal K input streamer
+* User's Guide ([ext[html|dashboard_tactics_pi/docs/signalk/SignalKInputStreamerUsage.html]] | [ext[pdf|dashboard_tactics_pi/docs/signalk/SignalKInputStreamerUsage.pdf]])
+* Design Description ([ext[html|dashboard_tactics_pi/docs/signalk/SignalKInputStreamer.html]] | [ext[pdf|dashboard_tactics_pi/docs/signalk/SignalKInputStreamer.pdf]])
+
+!!! EngineDJG Engine and Energy dials
+* User's Guide ([ext[html|dashboard_tactics_pi/docs/webview/README.html]] | [ext[pdf|dashboard_tactics_pi/docs/webview/README.pdf]])
+* Developer's Guide ([ext[html|dashboard_tactics_pi/docs/webview/developers/README.html]] | [ext[pdf|dashboard_tactics_pi/docs/webview/developers/README.pdf]])
+
+!!!InfluxDB output streamer
+* User's Guide ([ext[html|dashboard_tactics_pi/docs/influxdb/InfluxDBStreamer.html]] | [ext[pdf|dashboard_tactics_pi/docs/influxdb/InfluxDBStreamer.pdf]])
+* HTTP streaming ([ext[html|dashboard_tactics_pi/docs/influxdb/StreamingToDockerInfluxDB.html]] | [ext[pdf|dashboard_tactics_pi/docs/influxdb/StreamingToDockerInfluxDB.pdf]])
+</pre>
+</div>
+<div color="#0080ff" created="20200216155128876" modified="20200216155128876" title="DashT">
+<pre></pre>
+</div>
+<div created="20200216154939384" modified="20200216155202911" tags="DashT dashboard_tactics_pi" title="DashT - plug-in for OpenCPN">
 <pre>Enhanced replacement of Dashboard plug-in of [ext[OpenCPN|https://opencpn.org/]] v5 or greater. Brings in Tactics plug-in with its regatta computer-type active functions.
 
 An optional by-passing Signal K data format flow feeding instruments directly, including an integrated JavaScript instruments for engine and energy  data.
