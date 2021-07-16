@@ -7,6 +7,15 @@
         <ExpandedItems>
             <ItemID>E2ABA5A6-D89F-46FF-8158-B0B12C65A548</ItemID>
             <ItemID>E50CDD82-F423-4217-986F-4B3D2DFBFB06</ItemID>
+            <ItemID>266C0942-9D09-4FC8-B327-DCF921719953</ItemID>
+            <ItemID>EB5D7E75-A56D-46E9-B4B1-AF1CDF496BFD</ItemID>
+            <ItemID>090D3BD1-B6DF-4590-ABEB-73A4C47A50FA</ItemID>
+            <ItemID>5539B054-42B2-4E94-A7FF-234BEE045E97</ItemID>
+            <ItemID>25710E90-2119-40A8-B405-B30DCE9E4F30</ItemID>
+            <ItemID>AE803249-6937-4920-8FF3-8A9655D26D58</ItemID>
+            <ItemID>FEAD8790-FABD-4FC9-8BA8-F660DBCFBF3E</ItemID>
+            <ItemID>86DEFE9E-948C-43E4-A7FD-F8047E395B1C</ItemID>
+            <ItemID>EF13D2D9-5721-4BA5-A84C-7A2C907171EF</ItemID>
         </ExpandedItems>
         <Selection>
             <ItemID>584228C1-FC40-4D37-B506-3E463D361508</ItemID>
@@ -19,8 +28,8 @@
         <Collapse>CustomMetaData</Collapse>
         <FootnoteNumbers Prompt="No">No</FootnoteNumbers>
     </Inspector>
-    <Split>None</Split>
-    <BinderAffects>Current</BinderAffects>
+    <Split>Vertical</Split>
+    <BinderAffects>TopLeft</BinderAffects>
     <Labels>
         <Binder FullWidth="No">No</Binder>
         <Icons>No</Icons>
@@ -59,7 +68,7 @@
             <View>
                 <ShowHeader>Yes</ShowHeader>
                 <ShowFooter>Yes</ShowFooter>
-                <GroupsViewMode>Corkboard</GroupsViewMode>
+                <GroupsViewMode>Outliner</GroupsViewMode>
                 <CurrentViewMode>Single</CurrentViewMode>
                 <SelectionAffects>Current</SelectionAffects>
                 <Content>
@@ -68,7 +77,19 @@
                 <Selection>
                     <ItemID>266C0942-9D09-4FC8-B327-DCF921719953</ItemID>
                 </Selection>
-                <NavigationHistory CurrentIndex="0">
+                <NavigationHistory CurrentIndex="12">
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B2BF4789-C695-4F6A-88E4-CB46D2019122</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B1CAEF78-8993-4884-9483-618E9519466D</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B2BF4789-C695-4F6A-88E4-CB46D2019122</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B1CAEF78-8993-4884-9483-618E9519466D</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">42B47E8A-18D6-436F-95EA-BB0C618B5E81</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B2BF4789-C695-4F6A-88E4-CB46D2019122</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B1CAEF78-8993-4884-9483-618E9519466D</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B2BF4789-C695-4F6A-88E4-CB46D2019122</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">B1CAEF78-8993-4884-9483-618E9519466D</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">42B47E8A-18D6-436F-95EA-BB0C618B5E81</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Single">1C9E9D2F-7E83-4DF6-A7C9-825E3E537217</HistoryItem>
+                    <HistoryItem Type="BinderItems" ViewMode="Outliner">266C0942-9D09-4FC8-B327-DCF921719953</HistoryItem>
                     <HistoryItem Type="BinderItems" ViewMode="Single">584228C1-FC40-4D37-B506-3E463D361508</HistoryItem>
                 </NavigationHistory>
             </View>
@@ -77,7 +98,7 @@
                 <PageLayout Facing="No">No</PageLayout>
                 <TypewriterScrolling>No</TypewriterScrolling>
                 <LineNumbers Interval="1">No</LineNumbers>
-                <Selection>92,0</Selection>
+                <Selection>114,0</Selection>
             </Text>
             <Outliner>
                 <Columns>
@@ -99,7 +120,7 @@
                 <SectionsArrangement>Wrap</SectionsArrangement>
                 <LabelThreadsUseColumns>No</LabelThreadsUseColumns>
             </Corkboard>
-            <Copyholder PreferredOrientation="None" VerticalPos="Right" HorizontalPos="Bottom">
+            <Copyholder PreferredOrientation="Vertical" VerticalPos="Right" HorizontalPos="Bottom">
                 <Content></Content>
                 <Text>
                     <ShowRuler>No</ShowRuler>
@@ -113,10 +134,12 @@
             <View>
                 <ShowHeader>Yes</ShowHeader>
                 <ShowFooter>Yes</ShowFooter>
-                <GroupsViewMode>Corkboard</GroupsViewMode>
-                <CurrentViewMode>Single</CurrentViewMode>
+                <GroupsViewMode>Outliner</GroupsViewMode>
+                <CurrentViewMode>Outliner</CurrentViewMode>
                 <SelectionAffects>Current</SelectionAffects>
-                <Content/>
+                <Content>
+                    <ItemID>266C0942-9D09-4FC8-B327-DCF921719953</ItemID>
+                </Content>
                 <Selection>
                     <ItemID>A3053A29-2E2F-4C61-885A-7E2676538710</ItemID>
                 </Selection>
@@ -153,7 +176,7 @@
                 <SectionsArrangement>Wrap</SectionsArrangement>
                 <LabelThreadsUseColumns>No</LabelThreadsUseColumns>
             </Corkboard>
-            <Copyholder PreferredOrientation="None" VerticalPos="Right" HorizontalPos="Bottom">
+            <Copyholder PreferredOrientation="Vertical" VerticalPos="Right" HorizontalPos="Bottom">
                 <Content></Content>
                 <Text>
                     <ShowRuler>No</ShowRuler>
